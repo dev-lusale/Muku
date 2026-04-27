@@ -67,3 +67,16 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# IDE / agent folders
+.agents/
+.claude/
+.junie/
+.kiro/
+.vscode/
+
+# Root-level old files (moved to public/)
+app.js
+index.html
+map-engine.js
+skills-lock.json
