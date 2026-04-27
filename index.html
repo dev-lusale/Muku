@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MukuApp | TSF Intelligence & Surveillance</title>
+
+    <!-- Professional Assets -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="light-mode">
+
+    <!-- OVERLAYS -->
+    <div id="loading-overlay" class="overlay active">
+        <div class="glass-loader">MUKU PRO</div>
+    </div>
+    <div id="alert-toast" class="toast hidden"></div>
+
+    <!-- 1. AUTHENTICATION MODULE -->
+    <section id="auth-module" class="screen active">
+        <div class="auth-glass">
+            <h1 class="logo">MUKU <span class="tag">PRO</span></h1>
+            <div id="auth-form">
+                <input type="email" id="email" class="glass-input" placeholder="Corporate Email">
+                <input type="password" id="password" class="glass-input" placeholder="Access Key">
+                <select id="user-role" class="glass-input hidden">
+                    <option value="engineer">Mining Engineer</option>
+                    <option value="inspector">Field Inspector</option>
+                    <option value="manager">Facility Manager</option>
+                    <option value="admin">System Admin</option>
+                </select>
+                <button class="btn-primary" onclick="app.authenticate()">Authenticate</button>
+                <p onclick="app.toggleAuth()" id="auth-switch">Request Access (Sign Up)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. MAIN OPERATIONAL INTERFACE -->
+    <section id="main-interface" class="screen">
+        <!-- Sidebar Navigation (Handles all 20 modules) -->
+        <aside class="sidebar-glass">
+            <div class="side-logo">MUKU</div>
+            <nav class="side-nav">
+                <div class="nav-group">Monitoring</div>
+                <a href="#" class="nav-item active" onclick="app.switchView('dashboard')"><i data-lucide="layout"></i>
+                    Dashboard</a>
+                <a href="#" class="nav-item" onclick="app.switchView('gis')"><i data-lucide="map"></i> GIS Mapping</a>
+                <a href="#" class="nav-item" onclick="app.switchView('sensors')"><i data-lucide="cpu"></i> Sensors</a>
+
+                <div class="nav-group">Operations</div>
+                <a href="#" class="nav-item" onclick="app.switchView('inspections')"><i
+                        data-lucide="clipboard-check"></i> Inspections</a>
+                <a href="#" class="nav-item" onclick="app.switchView('incidents')"><i data-lucide="alert-octagon"></i>
+                    Incidents</a>
+
+                <div class="nav-group">Analysis</div>
+                <a href="#" class="nav-item" onclick="app.switchView('risk')"><i data-lucide="brain-circuit"></i> AI
+                    Risk Prediction</a>
+                <a href="#" class="nav-item" onclick="app.switchView('reports')"><i data-lucide="file-bar-chart"></i>
+                    Reports</a>
+
+                <div class="nav-group">System</div>
+                <a href="#" class="nav-item" onclick="app.switchView('admin')"><i data-lucide="shield-check"></i> Admin
+                    Panel</a>
+                <a href="#" class="nav-item" onclick="app.switchView('settings')"><i data-lucide="settings"></i>
+                    Settings</a>
+            </nav>
+            <div class="offline-status" id="sync-indicator">
+                <i data-lucide="wifi"></i> <span>Online Sync Active</span>
+            </div>
+        </aside>
+
+        <main class="main-body">
+            <!-- Header -->
+            <header class="top-bar-glass">
+                <div class="search-bar">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Search TSF assets, sensors, or alerts...">
+                </div>
+                <div class="user-profile">
+                    <div class="notif-bell"><i data-lucide="bell"></i><span class="dot"></span></div>
+                    <img id="user-avatar" src="https://ui-avatars.com/api/?name=Admin" alt="User"
+                        onclick="app.switchView('profile')">
+                </div>
+            </header>
+
+            <!-- View Dynamic Content -->
+            <div class="view-viewport">
+
+                <!-- DASHBOARD VIEW -->
+                <div id="view-dashboard" class="view active">
+                    <div class="dashboard-grid">
+                        <div class="glass-card stat-card warning">
+                            <label>Facility Risk Level</label>
+                            <h2>MODERATE</h2>
+                            <p>Trend: Increasing (Seepage)</p>
+                        </div>
+                        <div class="glass-card stat-card safe">
+                            <label>Active Sensors</label>
+                            <h2>1,248 / 1,250</h2>
+                            <p>Health: 99.8%</p>
+                        </div>
+                        <div class="glass-card stat-card danger">
+                            <label>Open Incidents</label>
+                            <h2>03</h2>
+                            <p>Critical: 01</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-main-grid">
+                        <div class="glass-card map-preview">
+                            <div id="dashMap"></div>
+                        </div>
+                        <div class="glass-card alerts-feed">
+                            <h3>Real-Time Alert Feed</h3>
+                            <div id="live-alerts"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GIS VIEW -->
+                <div id="view-gis" class="view">
+                    <div class="full-map-container glass">
+                        <div id="arcgis-map"></div>
+                    </div>
+                </div>
+
+                <!-- RISK ANALYSIS VIEW -->
+                <div id="view-risk" class="view">
+                    <div class="glass-card">
+                        <h3>AI Predictive Analytics</h3>
+                        <canvas id="predictionChart"></canvas>
+                        <p class="ai-insight">AI Model: Stability predicted to decrease by 4% in Sector B over next 48h
+                            due to forecasted rainfall.</p>
+                    </div>
+                </div>
+
+                <!-- REPORTS VIEW -->
+                <div id="view-reports" class="view">
+                    <div class="report-controls">
+                        <button class="btn-primary" onclick="app.exportData('pdf')">Export PDF</button>
+                        <button class="btn-primary" onclick="app.exportData('csv')">Export CSV</button>
+                    </div>
+                    <table class="glass-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Module</th>
+                                <th>Engineer</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="report-body"></tbody>
+                    </table>
+                </div>
+
+                <!-- PROFILE/USER MANAGEMENT VIEW -->
+                <div id="view-profile" class="view">
+                    <div class="profile-editor glass-card">
+                        <div class="avatar-edit">
+                            <img id="profile-pic" src="https://ui-avatars.com/api/?name=Admin">
+                            <input type="file" id="pic-upload" hidden>
+                            <label for="pic-upload" class="edit-btn"><i data-lucide="camera"></i></label>
+                        </div>
+                        <input type="text" id="prof-name" class="glass-input" placeholder="Name">
+                        <button class="btn-primary" onclick="app.saveProfile()">Update Profile</button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </section>
+
+    <!-- External SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://js.arcgis.com/4.28/"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
