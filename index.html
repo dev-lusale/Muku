@@ -490,6 +490,17 @@
 
 
 
+
+        }
+
+        @media (max-width: 850px) {
+            #view-settings {
+                height: calc(100vh - 140px);
+                /* space for top bar + bottom nav */
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 120px;
+            }
         }
     </style>
 </head>
