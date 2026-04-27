@@ -386,91 +386,82 @@
 
         /* --- PROFESSIONAL MOBILE ADAPTATION --- */
         @media (max-width: 850px) {
+            aside {
+                display: none;
+            }
 
-            html,
-            body {
-                height: 100%;
-                overflow: hidden;
-                /* prevents double scroll */
+            /* Hide Desktop Sidebar */
+            main {
+                padding: 0 !important;
+            }
+
+            /* Clear desktop main padding */
+
+            .top-bar {
+                padding: 0 20px;
+                height: 70px;
+                margin-bottom: 10px;
+            }
+
+            .top-bar h2 {
+                font-size: 18px;
             }
 
             .view-port {
-                height: calc(100vh - 70px);
-                overflow-y: auto;
+                scroll-behavior: smooth;
                 -webkit-overflow-scrolling: touch;
-                padding: 15px;
-                padding-bottom: 140px;
             }
 
-        }
+            .mobile-nav {
+                display: flex;
+            }
 
-        /* Hide Desktop Sidebar */
-        main {
-            padding: 0 !important;
-        }
+            /* Show Bottom Nav */
 
-        /* Clear desktop main padding */
+            .auth-card {
+                padding: 40px 25px;
+                max-width: 90%;
+            }
 
-        .top-bar {
-            padding: 0 20px;
-            height: 70px;
-            margin-bottom: 10px;
-        }
+            .auth-logo {
+                font-size: 32px;
+            }
 
-        .top-bar h2 {
-            font-size: 18px;
-        }
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin-bottom: 15px;
+            }
 
-        .mobile-nav {
-            display: flex;
-        }
+            .card {
+                padding: 20px;
+                border-radius: 24px;
+            }
 
-        /* Show Bottom Nav */
+            .card h2 {
+                font-size: 24px;
+            }
 
-        .auth-card {
-            padding: 40px 25px;
-            max-width: 90%;
-        }
+            .card label {
+                font-size: 9px;
+            }
 
-        .auth-logo {
-            font-size: 32px;
-        }
+            .map-container {
+                height: 350px;
+                border-radius: 28px;
+            }
 
-        .stat-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 15px;
-        }
+            #top-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+            }
 
-        .card {
-            padding: 20px;
-            border-radius: 24px;
-        }
-
-        .card h2 {
-            font-size: 24px;
-        }
-
-        .card label {
-            font-size: 9px;
-        }
-
-        .map-container {
-            height: 350px;
-            border-radius: 28px;
-        }
-
-        #top-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-        }
-
-        .btn {
-            padding: 14px 20px;
-            border-radius: 16px;
-            font-size: 13px;
-        }
+            .btn {
+                padding: 14px 20px;
+                border-radius: 16px;
+                font-size: 13px;
+            }
         }
 
         @keyframes fadeIn {
