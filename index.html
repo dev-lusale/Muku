@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MUKU PRO | Enterprise Intelligence</title>
 
     <!-- UI Assets -->
@@ -38,6 +38,7 @@
             padding: 0;
             box-sizing: border-box;
             transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -94,6 +95,7 @@
             justify-content: center;
             align-items: center;
             background: url('https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&q=80&w=2000') center/cover;
+            padding: 20px;
         }
 
         #screen-auth::after {
@@ -108,7 +110,7 @@
             z-index: 1;
             width: 100%;
             max-width: 540px;
-            padding: 80px 60px;
+            padding: 60px 40px;
             text-align: center;
         }
 
@@ -351,6 +353,118 @@
             color: var(--primary);
         }
 
+        /* --- MOBILE NAVIGATION BAR --- */
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            z-index: 1000;
+            border-top: 1px solid var(--glass-border);
+            border-radius: 24px 24px 0 0;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .mob-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: var(--text-dim);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .mob-nav-item.active {
+            color: var(--primary);
+        }
+
+        /* --- PROFESSIONAL MOBILE ADAPTATION --- */
+        @media (max-width: 850px) {
+            aside {
+                display: none;
+            }
+
+            /* Hide Desktop Sidebar */
+            main {
+                padding: 0 !important;
+            }
+
+            /* Clear desktop main padding */
+
+            .top-bar {
+                padding: 0 20px;
+                height: 70px;
+                margin-bottom: 10px;
+            }
+
+            .top-bar h2 {
+                font-size: 18px;
+            }
+
+            .view-port {
+                padding: 15px;
+                padding-bottom: 100px;
+                overflow-x: hidden;
+            }
+
+            .mobile-nav {
+                display: flex;
+            }
+
+            /* Show Bottom Nav */
+
+            .auth-card {
+                padding: 40px 25px;
+                max-width: 90%;
+            }
+
+            .auth-logo {
+                font-size: 32px;
+            }
+
+            .stat-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin-bottom: 15px;
+            }
+
+            .card {
+                padding: 20px;
+                border-radius: 24px;
+            }
+
+            .card h2 {
+                font-size: 24px;
+            }
+
+            .card label {
+                font-size: 9px;
+            }
+
+            .map-container {
+                height: 350px;
+                border-radius: 28px;
+            }
+
+            #top-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+            }
+
+            .btn {
+                padding: 14px 20px;
+                border-radius: 16px;
+                font-size: 13px;
+            }
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -384,7 +498,7 @@
     <section id="screen-auth" class="screen active">
         <div class="glass auth-card">
             <h1 class="auth-logo">MukuApp <span
-                    style="font-size: 18px; opacity: 0.8; vertical-align: middle; margin-left: 2px;"></span></h1>
+                    style="font-size: 18px; opacity: 0.8; vertical-align: middle; margin-left: 2px;">PRO</span></h1>
             <p>ADVANCED MINING SURVEILLANCE & AI</p>
 
             <div style="display: flex; flex-direction: column; gap: 24px;">
@@ -405,19 +519,18 @@
 
     <!-- 2. MAIN HUB -->
     <section id="screen-main" class="screen">
+        <!-- Sidebar (Desktop Only) -->
         <aside class="glass">
             <h2 style="font-weight: 800; color: var(--primary); letter-spacing: -1.5px; font-size: 24px;">MukuApp</h2>
-            <nav style="margin-top: 48px;">
+            <nav style="margin-top: 48px; flex: 1;">
                 <div class="nav-item active" onclick="app.nav('dashboard', this)"><i data-lucide="layout"></i> Dashboard
                 </div>
                 <div class="nav-item" onclick="app.nav('sites', this)"><i data-lucide="map-pin"></i> Live Sites</div>
                 <div class="nav-item" onclick="app.nav('reports', this)"><i data-lucide="file-text"></i> Safety Reports
                 </div>
-                <div class="nav-item" onclick="app.nav('zema', this)"><i data-lucide="shield-check"></i> ZEMA Compliance
+                <div class="nav-item" onclick="app.nav('zema', this)"><i data-lucide="shield-check"></i> Compliance
                 </div>
-                <div class="nav-item" onclick="app.nav('ai', this)"><i data-lucide="brain"></i> AI Forecasting</div>
-                <div class="nav-item" onclick="app.nav('settings', this)"><i data-lucide="settings"></i> System Settings
-                </div>
+                <div class="nav-item" onclick="app.nav('settings', this)"><i data-lucide="settings"></i> Settings</div>
             </nav>
 
             <div style="margin-top: auto; padding-top: 24px; border-top: 1px solid var(--glass-border);">
@@ -426,25 +539,16 @@
             </div>
         </aside>
 
+        <!-- Main Body -->
         <main>
-            <header class="glass top-bar">
+            <header class="top-bar glass" style="border-radius: 0 0 24px 24px; border-top:none;">
+                <h2 id="page-title" style="font-weight: 800; color: var(--primary);">Dashboard</h2>
                 <div style="display: flex; align-items: center; gap: 20px;">
-                    <i data-lucide="search" style="color: var(--text-dim);"></i>
-                    <input type="text" placeholder="Search sensors, coordinates, or site logs..."
-                        style="background: none; border: none; color: white; outline: none; width: 300px; font-size: 15px;">
-                </div>
-                <div style="display: flex; align-items: center; gap: 24px;">
-                    <button class="btn btn-danger" style="padding: 12px 24px; font-size: 13px;"
-                        onclick="app.panic()">PANIC ALERT</button>
-                    <div style="display: flex; align-items: center; gap: 16px; cursor: pointer;"
+                    <button class="btn btn-danger" style="padding: 10px 18px; font-size: 11px;"
+                        onclick="app.panic()">PANIC</button>
+                    <img id="top-avatar" src="https://ui-avatars.com/api/?name=Engineer&background=10b981&color=fff"
+                        style="width: 44px; height: 44px; border-radius: 14px; border: 2px solid var(--primary); cursor: pointer;"
                         onclick="app.nav('settings')">
-                        <div style="text-align: right;">
-                            <p id="top-name" style="font-weight: 700; font-size: 14px;">Dr. B. Lusale</p>
-                            <p style="font-size: 11px; color: var(--primary); font-weight: 800;">CHIEF ENGINEER</p>
-                        </div>
-                        <img id="top-avatar" src="https://ui-avatars.com/api/?name=Engineer&background=10b981&color=fff"
-                            style="width: 48px; height: 48px; border-radius: 18px; border: 2px solid var(--primary);">
-                    </div>
                 </div>
             </header>
 
@@ -453,14 +557,12 @@
                 <div id="view-dashboard" class="view active">
                     <div class="stat-grid">
                         <div class="glass card" style="border-left: 6px solid var(--primary);">
-                            <label>Neural Stability Prediction</label>
+                            <label>Neural Stability</label>
                             <h2 id="stability-val">96.2%</h2>
-                            <p style="font-size: 12px; color: var(--primary); font-weight: 800;">OPTIMAL STABILITY</p>
                         </div>
                         <div class="glass card">
-                            <label>ZEMA Compliance Score</label>
-                            <h2 style="color: var(--primary);">Verified</h2>
-                            <p style="font-size: 12px; color: var(--text-dim);">LAST AUDIT: 14H AGO</p>
+                            <label>ZEMA Score</label>
+                            <h2 style="color: var(--primary);">Pass</h2>
                         </div>
                     </div>
                     <div class="glass map-container">
@@ -472,104 +574,129 @@
                 <div id="view-sites" class="view">
                     <div class="glass card">
                         <h3>Sector Surveillance</h3>
-                        <div style="margin-top: 24px;">
+                        <div style="margin-top: 20px;">
                             <div class="glass"
-                                style="padding: 24px; display: flex; justify-content: space-between; margin-bottom: 12px; cursor: pointer;"
+                                style="padding: 20px; display: flex; justify-content: space-between; margin-bottom: 12px; cursor: pointer;"
                                 onclick="app.focus(28.21, -12.82)">
-                                <div><strong>KONKOLA TSF CLUSTER</strong><br><small
-                                        style="color: var(--text-dim);">Chilabombwe, Zambia</small></div>
+                                <div><strong>KONKOLA TSF</strong><br><small style="color: var(--text-dim);">Chilabombwe,
+                                        ZM</small></div>
                                 <span class="status-badge">STABLE</span>
                             </div>
-                            <div class="glass"
-                                style="padding: 24px; display: flex; justify-content: space-between; cursor: pointer;"
-                                onclick="app.focus(28.25, -12.91)">
-                                <div><strong>NCHANGA DEEP REGION</strong><br><small
-                                        style="color: var(--text-dim);">Chingola, Zambia</small></div>
-                                <span class="status-badge"
-                                    style="background: rgba(251, 191, 36, 0.1); color: #fbbf24;">MONITORING</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- VIEW: COMPLIANCE -->
-                <div id="view-zema" class="view">
-                    <div class="glass card">
-                        <h3 style="color: var(--primary);">ZEMA Statutory Framework</h3>
-                        <div style="margin-top: 32px;">
-                            <div class="comp-row"><span>Environmental Impact Assessment</span> <span
-                                    class="status-badge">VALID</span></div>
-                            <div class="comp-row"><span>Water Quality Standard (ZRS-102)</span> <span
-                                    class="status-badge">COMPLIANT</span></div>
-                            <div class="comp-row"><span>Dust Suppression Metrics</span> <span class="status-badge"
-                                    style="background: rgba(244, 63, 94, 0.1); color: var(--danger);">EXPIRED</span>
-                            </div>
-                            <button class="btn btn-primary" style="margin-top: 32px; width: 100%;"
-                                onclick="app.report('ZEMA')">GENERATE STATUTORY FILING</button>
                         </div>
                     </div>
                 </div>
 
                 <!-- VIEW: REPORTS -->
                 <div id="view-reports" class="view">
-                    <div class="glass card">
-                        <h3>Inspection & Intelligence Log</h3>
-                        <div style="margin-top: 32px; text-align: center;">
-                            <div id="mic-btn" class="mic-shell" onclick="app.startVoice()"><i data-lucide="mic"></i>
-                            </div>
-                            <p id="voice-label" style="font-size: 13px; color: var(--text-dim); margin-bottom: 24px;">
-                                Tap mic to dictate field observations</p>
-
-                            <textarea id="log-txt" class="glass-input" style="height: 160px; resize: none;"
-                                placeholder="System transcribing or manual input..."></textarea>
-                            <div style="display: flex; gap: 16px; margin-top: 24px;">
-                                <button class="btn btn-primary" style="flex: 1;" onclick="app.submit()">SUBMIT
-                                    LOG</button>
-                                <button class="btn btn-danger" style="background: transparent; flex: 1;"
-                                    onclick="app.report('Safety')">EXPORT PDF</button>
-                            </div>
-                        </div>
+                    <div class="glass card" style="text-align: center;">
+                        <div id="mic-btn" class="mic-shell" onclick="app.startVoice()"><i data-lucide="mic"></i></div>
+                        <p id="voice-label" style="font-size: 12px; color: var(--text-dim); margin-bottom: 20px;">Tap to
+                            dictate observations</p>
+                        <textarea id="log-txt" class="glass-input" style="height: 120px; resize: none;"
+                            placeholder="Transcript..."></textarea>
+                        <button class="btn btn-primary" style="margin-top: 15px;" onclick="app.submit()">SUBMIT
+                            LOG</button>
                     </div>
                 </div>
 
                 <!-- VIEW: SETTINGS -->
                 <div id="view-settings" class="view">
+
+                    <!-- PROFILE -->
                     <div class="glass card" style="text-align: center;">
+
                         <div class="avatar-box">
                             <img id="main-avatar"
                                 src="https://ui-avatars.com/api/?name=Engineer&background=10b981&color=fff">
-                            <label for="img-in" class="cam-badge"><i data-lucide="camera"
-                                    style="width: 18px;"></i></label>
+
+                            <label for="img-in" class="cam-badge">
+                                <i data-lucide="camera" style="width:18px;"></i>
+                            </label>
+
                             <input type="file" id="img-in" hidden onchange="app.img(this)">
                         </div>
-                        <input type="text" id="name-in" class="glass-input" style="max-width: 320px; margin: 0 auto;"
-                            placeholder="Chief Engineer Name" onchange="app.updateName(this.value)">
+
+                        <input type="text" class="glass-input" style="text-align:center;" placeholder="Operator Name"
+                            onchange="app.updateName(this.value)">
+
                     </div>
 
+                    <!-- NOTIFICATIONS -->
                     <div class="glass card">
-                        <h3>System Configuration</h3>
-                        <div class="comp-row"><span>Visual Interface Mode</span> <button class="btn btn-danger"
-                                style="padding: 8px 16px; font-size: 12px; background: transparent;"
-                                onclick="app.theme()">TOGGLE LIGHT/DARK</button></div>
-                        <div class="comp-row"><span>Regional Dialect</span> <select class="glass-input"
-                                style="width: auto; margin: 0; padding: 6px 12px;">
-                                <option>English (Global)</option>
-                                <option>Bemba</option>
-                                <option>French</option>
-                            </select></div>
-                        <div class="comp-row" style="border: none;"><span>Push Critical Alerts</span> <button
-                                class="btn btn-primary" style="padding: 8px 16px; font-size: 12px;">ENABLED</button>
+
+                        <h3 style="margin-bottom:20px;">Notifications</h3>
+
+                        <div class="comp-row">
+                            <span>Email Alerts</span>
+                            <input type="checkbox" onchange="app.toggleNotification('email', this.checked)">
                         </div>
+
+                        <div class="comp-row">
+                            <span>SMS Alerts</span>
+                            <input type="checkbox" onchange="app.toggleNotification('sms', this.checked)">
+                        </div>
+
+                        <div class="comp-row">
+                            <span>Push Notifications</span>
+                            <input type="checkbox" onchange="app.toggleNotification('push', this.checked)">
+                        </div>
+
                     </div>
+
+                    <!-- LANGUAGE -->
+                    <div class="glass card">
+
+                        <h3 style="margin-bottom:20px;">Languages</h3>
+
+                        <select class="glass-input" onchange="app.setLanguage(this.value)">
+
+                            <option value="en">English</option>
+                            <option value="bem">Bemba</option>
+                            <option value="nya">Nyanja</option>
+                            <option value="ton">Tonga</option>
+                            <option value="loz">Lozi</option>
+
+                        </select>
+
+                    </div>
+
+                    <!-- THEME -->
+                    <button class="btn glass" style="width: 100%; border-color: var(--danger); color: var(--danger);"
+                        onclick="app.theme()">
+
+                        SWITCH UI MODE
+
+                    </button>
+
+                    <!-- LOGOUT -->
+                    <button class="btn" style="width: 100%; margin-top:10px; color:var(--danger);"
+                        onclick="app.logout()">
+
+                        LOGOUT
+
+                    </button>
+
                 </div>
 
-                <div id="view-ai" class="view">
+                <div id="view-zema" class="view">
                     <div class="glass card">
-                        <h3>AI Digital Twin</h3>
-                        <div style="height: 300px;"><canvas id="aiChart"></canvas></div>
+                        <h3>Compliance</h3>
+                        <p>Status: Active.</p>
                     </div>
                 </div>
             </div>
+
+            <!-- Mobile Bottom Nav -->
+            <nav class="glass mobile-nav">
+                <div class="mob-nav-item active" onclick="app.nav('dashboard', this)"><i
+                        data-lucide="layout"></i><span>Home</span></div>
+                <div class="mob-nav-item" onclick="app.nav('sites', this)"><i
+                        data-lucide="map-pin"></i><span>Sites</span></div>
+                <div class="mob-nav-item" onclick="app.nav('reports', this)"><i
+                        data-lucide="file-text"></i><span>Log</span></div>
+                <div class="mob-nav-item" onclick="app.nav('settings', this)"><i
+                        data-lucide="settings"></i><span>User</span></div>
+            </nav>
         </main>
     </section>
 
@@ -581,8 +708,8 @@
             init: function () {
                 lucide.createIcons();
                 this.initMap();
-                this.initStats();
                 this.initSpeech();
+                this.loadSettings();
             },
 
             login: function () {
@@ -590,20 +717,24 @@
                 document.getElementById('screen-main').classList.add('active');
             },
 
-            logout: function () { if (confirm("Terminate Encrypted Session?")) location.reload(); },
+            logout: function () { if (confirm("Logout?")) location.reload(); },
 
             nav: function (id, el) {
                 document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                const target = document.getElementById('view-' + id);
-                if (target) target.classList.add('active');
-                if (el && typeof el === 'object') el.classList.add('active');
+                document.querySelectorAll('.nav-item, .mob-nav-item').forEach(n => n.classList.remove('active'));
+                document.getElementById('view-' + id).classList.add('active');
+                document.getElementById('page-title').innerText = id.toUpperCase();
+
+                // Sync highlighting for both sidebar and mob nav
+                const matches = document.querySelectorAll(`[onclick*="nav('${id}'"]`);
+                matches.forEach(m => m.classList.add('active'));
             },
 
             initMap: function () {
                 require(["esri/Map", "esri/views/MapView"], (Map, MapView) => {
                     const m = new Map({ basemap: "hybrid" });
                     this.map = new MapView({ container: "viewDiv", map: m, center: [28.23, -12.85], zoom: 11 });
+                    this.map.ui.remove("zoom");
                 });
             },
 
@@ -611,28 +742,45 @@
                 if (this.map) { this.map.goTo({ center: [lon, lat], zoom: 15 }); this.nav('dashboard'); }
             },
 
-            initStats: function () {
-                const ctx = document.getElementById('aiChart').getContext('2d');
-                new Chart(ctx, { type: 'line', data: { labels: ['00:00', '06:00', '12:00', '18:00'], datasets: [{ label: 'Stability Index', data: [96.2, 95.8, 96.5, 96.2], borderColor: '#10b981', tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false } });
-            },
-
             initSpeech: function () {
                 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
                 if (SR) {
                     this.recognition = new SR();
                     this.recognition.onresult = (e) => { document.getElementById('log-txt').value += e.results[0][0].transcript + " "; };
-                    this.recognition.onstart = () => { document.getElementById('mic-btn').classList.add('recording'); document.getElementById('voice-label').innerText = "SYSTEM LISTENING..."; };
-                    this.recognition.onend = () => { document.getElementById('mic-btn').classList.remove('recording'); document.getElementById('voice-label').innerText = "Dictation complete."; };
                 }
             },
 
-            startVoice: function () { this.recognition ? this.recognition.start() : alert("Voice not supported in this browser."); },
-            submit: function () { alert("Intelligence Log Synced to Master Database."); document.getElementById('log-txt').value = ""; },
-            report: function (t) { alert("Compiling Operational " + t + " Report..."); },
-            panic: function () { document.getElementById('stability-val').innerText = "32% DANGER"; alert("CRITICAL ALERT: SECTOR EVACUATION INITIATED."); },
+            startVoice: function () {
+                if (!this.recognition) return alert("No Voice Support");
+                this.recognition.start();
+                document.getElementById('mic-btn').style.background = '#f43f5e';
+                this.recognition.onend = () => document.getElementById('mic-btn').style.background = '#10b981';
+            },
+
+            submit: function () { alert("Report Sent."); },
+            panic: function () { document.getElementById('stability-val').innerText = "32% ALERT"; alert("EVACUATION SIGNAL SENT."); },
             theme: function () { const b = document.body; b.getAttribute('data-theme') === 'light' ? b.removeAttribute('data-theme') : b.setAttribute('data-theme', 'light'); },
             img: function (i) { if (i.files[0]) { const r = new FileReader(); r.onload = (e) => { document.getElementById('main-avatar').src = e.target.result; document.getElementById('top-avatar').src = e.target.result; }; r.readAsDataURL(i.files[0]); } },
-            updateName: function (n) { document.getElementById('top-name').innerText = n || "Dr. B. Lusale"; }
+            updateName: function (n) { },
+
+            toggleNotification: function (type, status) {
+                localStorage.setItem("notify_" + type, status);
+            },
+
+            setLanguage: function (lang) {
+                localStorage.setItem("app_language", lang);
+            },
+
+            loadSettings: function () {
+
+                // notifications
+                ["email", "sms", "push"].forEach(type => {
+                    const saved = localStorage.getItem("notify_" + type);
+                    const el = document.querySelector(`input[onchange*="${type}"]`);
+                    if (el) el.checked = (saved === "true");
+                });
+
+            }
         };
 
         window.onload = () => app.init();
